@@ -51,7 +51,7 @@ body,
 /* THIS IS FOR THE CLOCK CSS */
 
 .clock {
-  width: 120px;
+  width: 150px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -62,30 +62,30 @@ body,
     padding: 10px;
   }
   .analog-clock {
-    width: 150px;
-    height: 150px;
+    width: 350px;
+    height: 350px;
     border: solid 1px #000;
     border-radius: 50%;
     position: relative;
-    background: #fff url("https://www.jing.fm/clipimg/full/0-7025_clock-clipart-with-no-hands-analog-clock-without.png");
+    background:  url("https://firebasestorage.googleapis.com/v0/b/protoperp-attendance-monitor.appspot.com/o/clock-transparent-png-6.png?alt=media&token=84444cf5-d0e0-4413-85aa-e3f6381b6c97");
     background-size: cover;
     .dial {
       position: absolute;
       left: 50%;
       bottom: 50%;
       width: 50px;
-      height: 50px;
+      height: 100px;
       transform-origin: bottom left;
       &.seconds {
-        border-left:solid 1px green;
+        border-left:solid 1px #cc0000;
       }
       &.minutes {
-        border-left:solid 2px #cc0000;
+        border-left:solid 2px green;
       }
       &.hours {
         width: 35px;
         height: 35px;
-        top: 40px;
+        top: 140px;
         border-left:solid 3px #000;
       }
     }
