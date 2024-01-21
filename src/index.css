@@ -83,9 +83,9 @@ body,
         border-left:solid 2px green;
       }
       &.hours {
-        width: 35px;
-        height: 35px;
-        top: 140px;
+        width: 70px;
+        height: 65px;
+        top: 110px;
         border-left:solid 3px #000;
       }
     }

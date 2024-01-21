@@ -1,24 +1,29 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import Header from '../Components/Header'
-import { Box, TextField, Typography, useTheme } from '@mui/material'
+import { Box, TextField, useTheme } from '@mui/material'
 import { tokens } from '../theme'
-import {getDatabase, onValue, ref} from "firebase/database"
+import {getDatabase} from "firebase/database"
 import Clock from "../Components/Clock"
 import { Form, Formik } from 'formik'
 import { toast } from 'react-toastify'
 
 const Dashboard = () => {
   const theme = useTheme()
-  const colors = tokens(theme.palette.mode);
   const db = getDatabase();
+
 
   const formikRef = useRef(null)
   const initial = {
     idNumber: ""
   }
 
-  const inAndOut = () => {
-    toast.success("Nice one, boi")
+  const inAndOut = (value) => {
+    
+    toast.success(value.idNumber)
+    toast.info(new Date().toLocaleTimeString())
+    setTimeout(() => {
+      window.location.reload()
+    }, 3000)
   }
 
   return (
@@ -45,6 +50,7 @@ const Dashboard = () => {
                     error={!!touched.idNumber && !!errors.idNumber}
                     helperText={touched.idNumber && errors.idNumber}
                     sx={{width: "250%", justifyContent: "space-between"}}
+                    autoFocus
                   />
               </Form>
             )}
