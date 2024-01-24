@@ -1,5 +1,16 @@
 {
   "projects": {
     "default": "protoperp-attendance-monitor"
-  }
+  },
+  "targets": {
+    "protoperp-attendance-monitor": {
+      "hosting": {
+        "client": [
+          "attendance-scanner-client",
+          "protoperp-attendance-client"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

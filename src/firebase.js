@@ -9,14 +9,14 @@ import { getStorage } from "firebase/storage"
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyCGPQ-zURi0iOgVjd9ecUPc3udsLgXMmNo",
+  apiKey: "AIzaSyCGPQ-zURi0iOgVjd9ecUPc3udsLgXMmNo",
   authDomain: "protoperp-attendance-monitor.firebaseapp.com",
   databaseURL: "https://protoperp-attendance-monitor-default-rtdb.firebaseio.com",
   projectId: "protoperp-attendance-monitor",
   storageBucket: "protoperp-attendance-monitor.appspot.com",
   messagingSenderId: "488993031796",
-  appId: "1:488993031796:web:b102358b43a0bed6f23321",
-  measurementId: "G-1DFEZ4B5QT"
+  appId: "1:488993031796:web:a071dc3545acd9c7f23321",
+  measurementId: "G-P0GNMPED0R"
 };
 
 // Initialize Firebase

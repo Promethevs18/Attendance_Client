@@ -32,10 +32,11 @@ const Dashboard = () => {
   
             //Update Grand Attendance and Grand List
             update(ref(db, `Grand Attendance/${currentDate}/${studentData.grade_level}/${studentData.id_num}`), {
+              ...studentData,
               status,
               [status === "timedIn" ? "timeIn" : "timeOut"]: new Date().toLocaleTimeString(),
             });
-            update(ref(db, `Grand List/${studentData.id_num}`), { status });
+            update(ref(db, `Grand List/${studentData.id_num}`), {  ...studentData, status });
   
             const message = `Hello! Student ${studentData.student_name} has successfully ${
               status === "timedIn" ? "timed in" : "timed out"

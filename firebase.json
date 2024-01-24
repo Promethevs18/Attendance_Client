@@ -1,7 +1,7 @@
 {
   "hosting": {
-    "site": "protoperp-attendance-client",
-    "public": "public",
+    "site": "attendance-scanner-client",
+    "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
