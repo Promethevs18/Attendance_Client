@@ -80,8 +80,9 @@ const Dashboard = () => {
             ...studentData,
             status,
             [status === "timedIn" ? "timeIn" : "timeOut"]: new Date().toLocaleTimeString(),
+            subject: currentSub
           });
-          await update(ref(db, `Grand List/${studentData.id_num}`), { ...studentData, status });
+          await update(ref(db, `Grand List/${studentData.id_num}`), { ...studentData, status, subject: currentSub });
 
           const message = `Hello! Student ${studentData.student_name} has successfully ${status === "timedIn" ? "timed in" : "timed out"
             } at ${new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}.`;
