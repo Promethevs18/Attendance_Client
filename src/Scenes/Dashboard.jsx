@@ -76,7 +76,7 @@ const Dashboard = () => {
           const status = studentData.status === "timedIn" ? "timedOut" : "timedIn";
 
           // Update Grand Attendance and Grand List
-          await update(ref(db, `Grand Attendance/${currentDate}/${studentData.grade_level}/${studentData.id_num}`), {
+          await update(ref(db, `Grand Attendance/${currentDate}/${studentData.grade_level}/${currentSub}/${studentData.id_num}`), {
             ...studentData,
             status,
             [status === "timedIn" ? "timeIn" : "timeOut"]: new Date().toLocaleTimeString(),
