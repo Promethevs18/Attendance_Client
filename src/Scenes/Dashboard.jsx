@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import Loading from '@mui/material/CircularProgress'
 import { blue } from '@mui/material/colors'
-import { PieChart } from '@mui/x-charts'
+import {  BarChart, PieChart } from '@mui/x-charts'
 
 
 
@@ -23,11 +23,14 @@ const Dashboard = () => {
 
   const [totalStudents, setTotalStudents] = useState(0);
   const [totalAbsent, setTotalAbsent] = useState(0)
+  const [totalLate, setTotalLate] = useState(0)
 
   const [currentSub, setSub] = useState('')
 
   const [showLoad, setShow] = useState(false)
   const [showTeacherInput, setTeacherInput] = useState(true)
+
+  const [totalAttend, setTotal] = useState([])
 
   useEffect(() => {
     const getData = async () => {
@@ -46,6 +49,8 @@ const Dashboard = () => {
     const calculateAttendance = (data) => {
       let totalStudents = 0;
       const currentDate = new Date().toDateString();
+      const attendanceByDate = [];
+
 
       try{
         if (data[currentDate]) {
@@ -57,33 +62,61 @@ const Dashboard = () => {
             }
           }
         }
+        try {
+          if (data) {
+            for (const date in data) {
+              for (const level in data[date]) {
+                for (const subject in data[date][level]) {
+                  if (currentSub === subject) {
+                    const count = attendanceByDate[date] || 0;
+                    attendanceByDate[date] = count + 1; // Increment count for the date
+                  }
+                }
+              }
+            }
+          }
+      
+          // Convert the attendanceByDate object to an array
+          const attendArray = Object.entries(attendanceByDate).map(([date, count]) => ({
+            date,
+            count,
+          }));
+      
+          setTotal(attendArray);
+        } catch (error) {
+          console.log('error');
+        }
       }
+      
       catch (error){
         console.log('error')
       }
-      
       setTotalStudents(totalStudents)
     };
 
     const calculateAbsents = (data) => {
       
       let totalAbsent = 0;
+      let totalLate = 0;
       Object.values(data).forEach((item) => {
-        if (item.admission === 'Absent') {
-          totalAbsent += 1; // Increment absent count
+        if (item.admission.includes('Absent')) {
+          totalAbsent += 1; 
+        }
+        else if (item.admission.includes('Late')){
+          totalLate +=1;
         }
       });
       setTotalAbsent(totalAbsent)
+      setTotalLate(totalLate)
     };
 
     getData();
   }, [currentSub]);
-  
-
 
   const handleClose = () => {
     setTeacherInput(false)
   }
+
 
   // Check teacher
   const checkTeacher = async (value) => {
@@ -158,10 +191,12 @@ const Dashboard = () => {
       const getStudent = ref(db, "Grand List/" + value.idNumber);
       const snapshot = await get(getStudent);
       const studentData = snapshot.val();
+      const getSchedule = ref(db, `Subject Schedules/${currentSub}`)
+      const data = await get(getSchedule)
   
       if (snapshot.exists()) {
         const currentTime = new Date();
-        const scheduledTime = new Date(studentData.timeIn); // Assuming timeIn is stored in a format parseable by Date
+        const scheduledTime = new Date(data.timeStart); // Assuming timeIn is stored in a format parseable by Date
   
         // Calculate time difference in minutes
         const timeDifference = (currentTime - scheduledTime) / 1000 / 60; // Convert to minutes
@@ -228,7 +263,6 @@ const Dashboard = () => {
     }, 3500);
     setShow(false);
   };
-  
 
   return (
     <Box m="20px">
@@ -310,13 +344,14 @@ const Dashboard = () => {
       </Box>
       <Box display='flex' justifyContent='space-around'>
         <Box display='grid'>
-          <Typography variant='h5' textAlign='center'>Number of Present Students</Typography>
+          <Typography variant='h5' textAlign='center' marginTop='30px'>Number of Present Students</Typography>
           <PieChart
             series={[
               {
                 data: [
                   { id: 0, value: totalStudents, label: 'Total Present Students' },
                   { id: 1, value: totalAbsent, label: 'Total Absent Students' },
+                  { id: 2, value: totalLate, label: 'Total Late Students'}
                 
                 ],
               },
@@ -324,6 +359,21 @@ const Dashboard = () => {
             width={500}
             height={200}
           />
+        </Box>
+        <Box display='grid'>
+        <Typography variant='h5' textAlign='center' marginTop='30px'>Total Present Student per Date</Typography>
+          <BarChart
+          xAxis={[{ data: totalAttend.map(item => item.date), scaleType: 'band' }]} 
+          series={[
+            {
+              data: totalAttend.map(item => item.count), 
+            },
+          ]}
+          width={500}
+          height={300}
+          borderRadius={10}
+        />
+
         </Box>
        
       </Box>
